@@ -1,0 +1,190 @@
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local GameConfigs = {
+    [112757576021097] = {
+        name = "Defuse Division",
+        script = "https://gist.githubusercontent.com/Sandro2222/1ff0ecbf5afe2d80614aebac56f023e9/raw/ec7a8bea04cf0a887354fdfe1109fa6c15f9d3cd/DefuseDivisionGH",
+        color = Color3.fromRGB(0, 170, 255)
+    },
+    [79393329652220] = {
+        name = "Defusal FPS", 
+        script = "https://gist.githubusercontent.com/Sandro2222/cb70acb5d636eeb7126f0279651f5c07/raw/6fb9164d6a175b292919fe9f62a9a20087f08eeb/DefusalFPS",
+        color = Color3.fromRGB(255, 85, 0)
+    },
+    [301549746] = {
+        name = "CB Greatness",
+        script = "https://gist.githubusercontent.com/Sandro2222/82a733801230fa80908b9cecc4042448/raw/1fd109006b6274699f4d16391e6feb6f5bffc327/CB-GREATNESS",
+        color = Color3.fromRGB(255, 0, 127)
+    },
+    [126509999114328] = {
+        name = "99 Nights Greatness",
+        script = "https://gist.githubusercontent.com/Sandro2222/d62f9cdd63402a370ea12071ccd77d41/raw/37088e15ea8bed992aacb38586f2986df496e098/99nightsGreatness",
+        color = Color3.fromRGB(170, 0, 255)
+    },
+    [17625359962] = {
+        name = "Rivals Greatness",
+        script = "https://gist.githubusercontent.com/Sandro2222/99228c051534c93e116a45acfc60b31d/raw/c60d19c65e4600d61d958ad4e8ba321c2313fc6c/RivalsGreatness",
+        color = Color3.fromRGB(0, 255, 127)
+    },
+    [9872472334] = {
+        name = "Evade Greatness", 
+        script = "https://gist.githubusercontent.com/Sandro2222/a3fdbe641f48922c052ff02aef3796d1/raw/8e49a0ff657e1c876c7a727c1102f940a7d55d60/EvadeGreatness",
+        color = Color3.fromRGB(255, 255, 0)
+    },
+    [99567941238278] = {
+        name = "Greatness Hub & Horizon Hub",
+        script = "https://gist.githubusercontent.com/Sandro2222/506e10baf05eab80baf66a5648475de1/raw/1e4cc0ccd26d0efe6c4b10d20a5682f38fcde819/GreatnessHub&HorizonHubInkGame.lua",
+        color = Color3.fromRGB(255, 0, 0)
+    }
+}
+
+function notify(title, message, color, duration)
+    duration = duration or 5
+    
+    -- Create GUI
+    local gui = Instance.new("ScreenGui")
+    local frame = Instance.new("Frame")
+    local titleLabel = Instance.new("TextLabel")
+    local messageLabel = Instance.new("TextLabel")
+    local accent = Instance.new("Frame")
+    local closeBtn = Instance.new("TextButton")
+    
+    gui.Name = "GameLoaderNotification"
+    gui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
+    gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    
+    frame.Name = "MainFrame"
+    frame.Parent = gui
+    frame.Size = UDim2.new(0, 350, 0, 120)
+    frame.Position = UDim2.new(1, 10, 1, -130)
+    frame.AnchorPoint = Vector2.new(1, 1)
+    frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    frame.BorderSizePixel = 0
+    frame.ClipsDescendants = true
+    
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = frame
+    
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromRGB(60, 60, 60)
+    stroke.Thickness = 2
+    stroke.Parent = frame
+    
+    accent.Name = "Accent"
+    accent.Parent = frame
+    accent.Size = UDim2.new(0, 5, 1, 0)
+    accent.BackgroundColor3 = color
+    accent.BorderSizePixel = 0
+    
+    titleLabel.Name = "Title"
+    titleLabel.Parent = frame
+    titleLabel.Size = UDim2.new(1, -50, 0, 30)
+    titleLabel.Position = UDim2.new(0, 15, 0, 10)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Text = title
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.TextSize = 18
+    titleLabel.Font = Enum.Font.GothamBold
+    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    messageLabel.Name = "Message"
+    messageLabel.Parent = frame
+    messageLabel.Size = UDim2.new(1, -20, 1, -50)
+    messageLabel.Position = UDim2.new(0, 15, 0, 40)
+    messageLabel.BackgroundTransparency = 1
+    messageLabel.Text = message
+    messageLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+    messageLabel.TextSize = 14
+    messageLabel.Font = Enum.Font.Gotham
+    messageLabel.TextXAlignment = Enum.TextXAlignment.Left
+    messageLabel.TextYAlignment = Enum.TextYAlignment.Top
+    messageLabel.TextWrapped = true
+    
+    closeBtn.Name = "CloseButton"
+    closeBtn.Parent = frame
+    closeBtn.Size = UDim2.new(0, 25, 0, 25)
+    closeBtn.Position = UDim2.new(1, -30, 0, 10)
+    closeBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    closeBtn.Text = "X"
+    closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeBtn.TextSize = 14
+    closeBtn.Font = Enum.Font.GothamBold
+    closeBtn.BorderSizePixel = 0
+    
+    local btnCorner = Instance.new("UICorner")
+    btnCorner.CornerRadius = UDim.new(0, 4)
+    btnCorner.Parent = closeBtn
+    
+    frame.Position = UDim2.new(1, 360, 1, -130)
+    
+    local tweenIn = TweenService:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+        Position = UDim2.new(1, 10, 1, -130)
+    })
+    
+    tweenIn:Play()
+    
+    closeBtn.MouseButton1Click:Connect(function()
+        local tweenOut = TweenService:Create(frame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+            Position = UDim2.new(1, 360, 1, -130)
+        })
+        tweenOut:Play()
+        tweenOut.Completed:Connect(function()
+            gui:Destroy()
+        end)
+    end)
+    
+    task.delay(duration, function()
+        if gui and gui.Parent then
+            local tweenOut = TweenService:Create(frame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+                Position = UDim2.new(1, 360, 1, -130)
+            })
+            tweenOut:Play()
+            tweenOut.Completed:Connect(function()
+                gui:Destroy()
+            end)
+        end
+    end)
+end
+
+function loadGameScript()
+    local currentPlaceId = game.PlaceId
+    local config = GameConfigs[currentPlaceId]
+    
+    if config then
+        notify("Game Detected", config.name, config.color, 3)
+        
+        task.wait(1)
+        
+        notify("📥 Loading Script", "Executing " .. config.name .. "...", config.color, 2)
+        
+        local success, errorMsg = pcall(function()
+            local scriptSource = game:HttpGet(config.script, true)
+            loadstring(scriptSource)()
+        end)
+        
+        if success then
+            notify("✅ Success", config.name .. " loaded successfully!", Color3.fromRGB(0, 255, 0), 4)
+        else
+            notify("❌ Error", "Failed to load " .. config.name .. "\n" .. errorMsg, Color3.fromRGB(255, 0, 0), 6)
+        end
+    else
+
+        local supportedGames = ""
+        for placeId, gameConfig in pairs(GameConfigs) do
+            supportedGames = supportedGames .. "• " .. gameConfig.name .. "\n"
+        end
+        
+        notify("❌ Game Not Supported", 
+            "This game is not in our database!\n\nSupported Games:\n" .. supportedGames, 
+            Color3.fromRGB(255, 100, 0), 8)
+    end
+end
+
+notify("Greatness Loader", "Initializing game detection...", Color3.fromRGB(0, 170, 255), 2)
+
+task.wait(2)
+
+loadGameScript()
